@@ -87,6 +87,46 @@ class LinkedList {
         }
         return result;
     }
+
+    insertAt (value, index) {
+        let currentNode = this.head;
+        let newNode = new Node(value)
+        if (index > this.size) console.error('index too big!');
+        if (index == 0) {
+            this.prepend(value);
+        } else if (index == this.size-1) {
+            this.append(value);
+        } else {
+            for (let i = 0; i < index; i++) {
+                if (i+1 == index) {
+                    newNode.nextNode = currentNode.nextNode;
+                    currentNode.nextNode = newNode;
+                    this.size += 1;
+                }
+                currentNode = currentNode.nextNode;
+            }
+        }
+
+        
+    }
+
+    removeAt (index) {
+        let currentNode = this.head;
+        if (index == 0) {
+            this.head = this.head.nextNode;
+        } else if (index == this.size-1) {
+            this.pop();
+        } else {
+            for (let i = 0; i < index; i++) {
+                if (i+1 == index) {
+                    currentNode.nextNode = currentNode.nextNode.nextNode;
+                    this.size -= 1;
+                }
+                currentNode = currentNode.nextNode;
+            }
+        }
+    }
+
 }
 
 const node = new Node('1');
@@ -96,7 +136,8 @@ const node3 = new Node('3');
 const list = new LinkedList(node2);
 list.append('3');
 list.prepend('1');
-list.pop()
+list.insertAt('1.5', 1);
+list.removeAt(0);
 
 console.log(list.contains('3'));
 console.log(list.toString());
