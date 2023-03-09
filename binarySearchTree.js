@@ -131,7 +131,6 @@ class Tree {
         result.push(func(currentNode.data));
         while (queue.length != 0) {
             currentNode = queue.pop();
-            console.log(currentNode.data);
             
             if (currentNode.left != null) {
                 queue.unshift(currentNode.left);
@@ -146,15 +145,71 @@ class Tree {
     }
 
     inorder (func = num => {return num}) {
+        if (this.root == null) return null;
 
+        const queue = [];
+        const result = [];
+
+        let currentNode = this.root;
+
+        while (queue.length != 0 || currentNode != null) {
+            if (currentNode != null) {
+                queue.push(currentNode);
+                currentNode = currentNode.left;
+            } else {
+                currentNode = queue.pop();
+                result.push(func(currentNode.data));
+                currentNode  = currentNode.right;
+            }
+        }
+        return result;
     }
 
     preorder (func = num => {return num}) {
+        if (this.root == null) return null;
 
+        const queue = [];
+        const result = [];
+
+        let currentNode = this.root;
+        queue.push(currentNode);
+
+        while (queue.length != 0) {
+            currentNode = queue.pop();
+            result.push(func(currentNode.data));
+
+            if (currentNode.right != null) {
+                queue.push(currentNode.right);
+            }
+            if (currentNode.left != null) {
+                queue.push(currentNode.left);
+            }
+            
+        }
+        return result;
     }
 
     postorder (func = num => {return num}) {
+        if (this.root == null) return null;
 
+        const queue = [];
+        const result = [];
+
+        let currentNode = this.root;
+
+        while (queue.length != 0 || currentNode != null) {
+            if (currentNode != null) {
+                queue.push(currentNode);
+                currentNode = currentNode.left;
+            } else {
+                currentNode = queue.pop();
+                if (currentNode.right != null) {
+                    queue.push(currentNode);
+                    currentNode = currentNode.right;
+                }
+            }
+        }
+        return result;
     }
 
 
@@ -167,4 +222,5 @@ const tree = new Tree(array);
 tree.insert(2)
 tree.delete(67);
 prettyPrint(tree.root);
-console.log(tree.levelOrder(add= num => {return num+1}));
+console.log(tree.levelOrder());
+console.log(tree.postorder());
