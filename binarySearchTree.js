@@ -196,6 +196,7 @@ class Tree {
         const result = [];
 
         let currentNode = this.root;
+        let recentNode = new Node();
 
         while (queue.length != 0 || currentNode != null) {
             if (currentNode != null) {
@@ -203,16 +204,24 @@ class Tree {
                 currentNode = currentNode.left;
             } else {
                 currentNode = queue.pop();
-                if (currentNode.right != null) {
+                if (currentNode.right != null && recentNode != currentNode.right) {
                     queue.push(currentNode);
                     currentNode = currentNode.right;
+                } else {
+                    result.push(func(currentNode.data));
+                    recentNode = currentNode;
+                    currentNode = null;
                 }
             }
         }
         return result;
     }
 
-
+    height () {
+        if (this.root == null) return 0;
+            
+        
+    }
 }
 
 
@@ -223,4 +232,7 @@ tree.insert(2)
 tree.delete(67);
 prettyPrint(tree.root);
 console.log(tree.levelOrder());
+console.log(tree.inorder());
+console.log(tree.preorder());
 console.log(tree.postorder());
+console.log(tree.height());
